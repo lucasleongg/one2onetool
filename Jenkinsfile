@@ -8,6 +8,7 @@ pipeline {
         registry = "lucasleongg/govtech"
         registryCredential = 'dockerhub_id'
         dockerImage = ''
+        container_name = "staging"
     }
   stages {
     stage('Build') {
@@ -39,8 +40,7 @@ pipeline {
     stage('Deploy Image') {
       steps{
         script {
-          docker.image('$registry:$BUILD_NUMBER').withrun('-p 3000:3000')
-//           sh 'docker run -p 3000:3000 -d $registry:$BUILD_NUMBER'
+          sh 'docker run -p --name $container_name 3000:3000 -d $registry:$BUILD_NUMBER'
         }
       }
     }
