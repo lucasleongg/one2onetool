@@ -9,6 +9,8 @@ pipeline {
         registryCredential = 'dockerhub_id'
         dockerImage = ''
 	DATA_FILE = "${env.BRANCH_NAME == "staging" ? "Questions-test.json" : "Questions.json"}"
+	docker_port = "${env.BRANCH_NAME == "staging" ? "3000" : "3001"}"
+	email_notification = "lucasleongg@gmail.com"
     }
   stages {
     stage('Build') {
@@ -47,21 +49,16 @@ pipeline {
       	    echo 'Exception occurred: ' + e.toString()
       	    echo 'Continue'
     	  }
-	  sh "docker run --name ${env.BRANCH_NAME} -p 3000:3000 -e 'DATA_FILE=${DATA_FILE}' -d $registry:${env.BRANCH_NAME}-$BUILD_NUMBER"
+	  sh "docker run --name ${env.BRANCH_NAME} -p $docker_port:3000 -e 'DATA_FILE=${DATA_FILE}' -d $registry:${env.BRANCH_NAME}-$BUILD_NUMBER"
         }
       }
     }
   }
   post {
-        always {            
-//             emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
-//                 recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-//                 subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
-	    
-            mail to: "lucasleongg@gmail.com",
+        failure {            
+            mail to: "$email_notification",
             subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
             body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
-		
         }
     }
 }
