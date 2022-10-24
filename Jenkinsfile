@@ -40,16 +40,26 @@ pipeline {
     stage('Deploy Image') {
       steps{
         script {
-		try {
-	    		sh "docker stop ${env.BRANCH_NAME}"
-          		sh "docker rm ${env.BRANCH_NAME}"
-		} catch (Exception e) {
-      			echo 'Exception occurred: ' + e.toString()
-      			echo 'Continue'
-    		}
-		sh "docker run --name ${env.BRANCH_NAME} -p 3000:3000 -e 'DATA_FILE=${DATA_FILE}' -d $registry:${env.BRANCH_NAME}-$BUILD_NUMBER"
+	  try {
+	    sh "docker stop ${env.BRANCH_NAME}"
+            sh "docker rm ${env.BRANCH_NAME}"
+	  } catch (Exception e) {
+      	    echo 'Exception occurred: ' + e.toString()
+      	    echo 'Continue'
+    	  }
+	  sh "docker run --name ${env.BRANCH_NAME} -p 3000:3000 -e 'DATA_FILE=${DATA_FILE}' -d $registry:${env.BRANCH_NAME}-$BUILD_NUMBER"
         }
       }
     }
   }
+  post {
+        always {
+            echo 'I will always say Hello again!'
+            
+            emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+                recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
+                subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+            
+        }
+    }
 }
