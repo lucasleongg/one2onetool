@@ -4,7 +4,7 @@ pipeline {
   tools {nodejs "node"}
   
   environment {
-        DATA_FILE = Questions-test.json
+        DATA_FILE = "Questions-test.json"
     }
   stages {
     stage('Example') {
