@@ -10,9 +10,20 @@ pipeline {
         dockerImage = ''
     }
   stages {
-    stage('Test') {
-      steps {
-         sh 'npm test'
+//     stage('Test') {
+//       steps {
+//          sh 'npm install'
+//       }
+//     }
+//     stage('Test') {
+//       steps {
+//          sh 'npm test'
+//       }
+//     }
+    stage('Building image') {
+      steps{
+          sh 'ls'
+        }
       }
     }
     stage('Building image') {
