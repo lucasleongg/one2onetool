@@ -4,11 +4,11 @@ pipeline {
   tools {nodejs "node"}
   
   environment {
-        DATA_FILE = "Questions-test.json"
+//         DATA_FILE = "Questions-test.json"
         registry = "lucasleongg/govtech"
         registryCredential = 'dockerhub_id'
         dockerImage = ''
-//         container_name = "staging"
+	DATA_FILE = "${env.BRANCH_NAME == "staging" ? "Questions-test.json" : "Questions.json"}"
     }
   stages {
     stage('Build') {
