@@ -4,7 +4,7 @@ FROM node:16
 WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY * ./
+COPY package*.json ./
 
 RUN npm install
 # If you are building your code for production
