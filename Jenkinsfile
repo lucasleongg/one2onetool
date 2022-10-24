@@ -23,7 +23,6 @@ pipeline {
     stage('Building image') {
       steps{
           sh 'ls'
-        }
       }
     }
     stage('Building image') {
