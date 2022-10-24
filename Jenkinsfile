@@ -10,20 +10,14 @@ pipeline {
         dockerImage = ''
     }
   stages {
-//     stage('Test') {
-//       steps {
-//          sh 'npm install'
-//       }
-//     }
-//     stage('Test') {
-//       steps {
-//          sh 'npm test'
-//       }
-//     }
-    stage('list') {
-      steps{
-          sh 'ls'
-          sh 'pwd'
+    stage('Build') {
+      steps {
+         sh 'npm install'
+      }
+    }
+    stage('Test') {
+      steps {
+         sh 'npm test'
       }
     }
     stage('Building image') {
