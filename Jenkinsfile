@@ -20,9 +20,10 @@ pipeline {
 //          sh 'npm test'
 //       }
 //     }
-    stage('Building image') {
+    stage('list') {
       steps{
           sh 'ls'
+          sh 'pwd'
       }
     }
     stage('Building image') {
