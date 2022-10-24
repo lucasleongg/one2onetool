@@ -40,9 +40,14 @@ pipeline {
     stage('Deploy Image') {
       steps{
         script {
-          sh "docker stop $container_name"
-		      sh "docker rm $container_name"
-          sh 'docker run -p --name $container_name 3000:3000 -d $registry:$BUILD_NUMBER'
+		try {
+	    		sh "docker stop $container_name"
+          		sh "docker rm $container_name"
+		} catch (Exception e) {
+      			echo 'Exception occurred: ' + e.toString()
+      			echo 'Continue'
+    		}
+          	sh 'docker run -p --name $container_name 3000:3000 -d $registry:$BUILD_NUMBER'
         }
       }
     }
