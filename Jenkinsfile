@@ -47,8 +47,7 @@ pipeline {
       			echo 'Exception occurred: ' + e.toString()
       			echo 'Continue'
     		}
-		echo "docker run --name ${env.BRANCH_NAME} -p 3000:3000 -d $registry:${env.BRANCH_NAME}-$BUILD_NUMBER"
-          	sh "docker run --name ${env.BRANCH_NAME} -p 3000:3000 -d $registry:${env.BRANCH_NAME}-$BUILD_NUMBER"
+		sh "docker run --name ${env.BRANCH_NAME} -p 3000:3000 -e 'DATA_FILE=${DATA_FILE}' -d $registry:${env.BRANCH_NAME}-$BUILD_NUMBER"
         }
       }
     }
