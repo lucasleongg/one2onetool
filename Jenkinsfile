@@ -1,8 +1,11 @@
 pipeline {
   agent any
- 
+  
   tools {nodejs "node"}
- 
+  
+  environment {
+        DATA_FILE = Questions-test.json
+    }
   stages {
     stage('Example') {
       steps {
