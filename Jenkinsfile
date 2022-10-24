@@ -33,12 +33,18 @@ pipeline {
         }
       }
     }
-    stage('Deploy Image') {
+    stage('Push Image') {
       steps{
         script {
           docker.withRegistry( '', registryCredential ) {
             dockerImage.push()
           }
+        }
+      }
+    stage('Deploy Image') {
+      steps{
+        script {
+          sh 'docker run -p 3000:3000 -d $registry:$BUILD_NUMBER'
         }
       }
     }
