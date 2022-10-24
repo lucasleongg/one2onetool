@@ -5,26 +5,30 @@ pipeline {
   
   environment {
         DATA_FILE = "Questions-test.json"
+        registry = "lucasleongg/govtech"
+        registryCredential = 'dockerhub_id'
+        dockerImage = ''
     }
   stages {
-    stage('Example') {
-      steps {
-        sh 'npm config ls'
-      }
-    }
-    stage('Install dependencies') {
-      steps {
-        sh 'npm install'
-      }
-    }
     stage('Test') {
       steps {
          sh 'npm test'
       }
     }
-    stage('Start') {
-      steps {
-         sh 'npm start'
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
       }
     }
   }
