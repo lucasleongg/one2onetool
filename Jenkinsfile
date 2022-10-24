@@ -47,7 +47,7 @@ pipeline {
       			echo 'Exception occurred: ' + e.toString()
       			echo 'Continue'
     		}
-          	sh 'docker run -p --name $container_name 3000:3000 -d $registry:$BUILD_NUMBER'
+          	sh 'docker run --name $container_name -p 3000:3000 -d $registry:$BUILD_NUMBER'
         }
       }
     }
