@@ -24,7 +24,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-		dockerImage = docker.build registry + "/${env.BRANCH_NAME}:$BUILD_NUMBER"
+		dockerImage = docker.build registry + ":${env.BRANCH_NAME}-$BUILD_NUMBER"
         }
       }
     }
@@ -47,7 +47,7 @@ pipeline {
       			echo 'Exception occurred: ' + e.toString()
       			echo 'Continue'
     		}
-          	sh 'docker run --name ${env.BRANCH_NAME} -p 3000:3000 -d $registry_env/${env.BRANCH_NAME}:$BUILD_NUMBER'
+          	sh 'docker run --name ${env.BRANCH_NAME} -p 3000:3000 -d $registry:${env.BRANCH_NAME}-$BUILD_NUMBER'
         }
       }
     }
