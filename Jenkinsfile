@@ -39,6 +39,7 @@ pipeline {
     stage('Deploy Image') {
       steps{
         script {
+          docker.image('$registry:$BUILD_NUMBER').withrun('-p 3000:3000')
           sh 'docker run -p 3000:3000 -d $registry:$BUILD_NUMBER'
         }
       }
