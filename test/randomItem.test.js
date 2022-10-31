@@ -9,6 +9,6 @@ test('get() uses provided random function', () => {
     expect(actual2).toBe('two');
     expect(actual3).toBe('three');
 
-//    assert(5 > 7);
+    assert(5 > 7);
 });
 
